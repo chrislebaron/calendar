@@ -1,0 +1,28 @@
+#sidebar {
+	width: 150px;
+	display: inline-block;
+}
+
+#main-window {
+	display:inline-block;
+}
+
+#calendar-table {
+	display:block;
+	height: 80%;
+}
+
+#calendar-table th {
+	height:15px;
+	background: #CAEDFF;
+	color: #7CA0B2;
+}
+
+#calendar-table th,td {
+	border: solid 1px;
+}
+
+#calendar-table .col-md-1 {
+	/*width: 14.285714286%;*/
+    /**width: 14.285714285714285714285714285714%;*/
+}
