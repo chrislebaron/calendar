@@ -3,19 +3,27 @@
 	<title>Calendar</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/calendar.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-12">
-				<h2 id="month-name">Month</h2>
+			<div id="top-bar" class="col-xs-12">
+				<div id="top-stuff">
+					<div id="month-name"><span id="back-month"><</span> Month <span id="forward-month">></span></div>
+					<div id="nav-buttons">
+						 
+					</div>
+
+				</div>
+				
+
 			</div>
 		</div>
 
-		<div id="sidebar" class="">
-			<h3>Sidebar</h3>
-		</div>
 		<div id="main-window">
+			
 
 			<table id="calendar-table">
 				<tr>
@@ -28,55 +36,7 @@
 					<th class="col-xs-1">Sat</th>
 				</tr>
 
-				<tr>
-					<td class="col-xs-1">1</td>
-					<td class="col-xs-1">2</td>
-					<td class="col-xs-1">3</td>
-					<td class="col-xs-1">4</td>
-					<td class="col-xs-1">5</td>
-					<td class="col-xs-1">6</td>
-					<td class="col-xs-1">7</td>
-				</tr>
 
-				<tr>
-					<td class="col-xs-1">1</td>
-					<td class="col-xs-1">2</td>
-					<td class="col-xs-1">3</td>
-					<td class="col-xs-1">4</td>
-					<td class="col-xs-1">5</td>
-					<td class="col-xs-1">6</td>
-					<td class="col-xs-1">7</td>
-				</tr>
-
-				<tr>
-					<td class="col-xs-1">1</td>
-					<td class="col-xs-1">2</td>
-					<td class="col-xs-1">3</td>
-					<td class="col-xs-1">4</td>
-					<td class="col-xs-1">5</td>
-					<td class="col-xs-1">6</td>
-					<td class="col-xs-1">7</td>
-				</tr>
-
-				<tr>
-					<td class="col-xs-1">1</td>
-					<td class="col-xs-1">2</td>
-					<td class="col-xs-1">3</td>
-					<td class="col-xs-1">4</td>
-					<td class="col-xs-1">5</td>
-					<td class="col-xs-1">6</td>
-					<td class="col-xs-1">7</td>
-				</tr>
-
-				<tr>
-					<td class="col-xs-1">1</td>
-					<td class="col-xs-1">2</td>
-					<td class="col-xs-1">3</td>
-					<td class="col-xs-1">4</td>
-					<td class="col-xs-1">5</td>
-					<td class="col-xs-1">6</td>
-					<td class="col-xs-1">7</td>
-				</tr>
 			</table>
 		</div>
 
