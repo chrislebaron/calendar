@@ -9,25 +9,28 @@ $( document ).ready(function() {
 	var monthLength = lastOfMonth.getDate();
 	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-	var setupDates = function(today) {
-		// today = new Date(2015, 3, 15);
-		firstOfMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDate()+1);
+	var setupDates = function(refDate) {
+		// refDate = new Date(2015, 3, 15);
+		firstOfMonth = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate()-refDate.getDate()+1);
 		firstOfNextMonth = new Date(firstOfMonth.getFullYear(), firstOfMonth.getMonth()+1, 1);
 		firstOfLastMonth = new Date(firstOfMonth.getFullYear(), firstOfMonth.getMonth() -1, 1);
 		lastOfMonth = new Date(firstOfMonth.getFullYear(), firstOfMonth.getMonth()+1, 0);
 		monthLength = lastOfMonth.getDate();
 		
-	}
+	};
 	
 
 	var populateDays = function(){
+		$('#calendar-table').html('');
 		var lastMonthDays = firstOfMonth.getDay() + 1;
 		var nextMonthDays = 7 - lastOfMonth.getDay();
 		var totalDays = monthLength + lastMonthDays + nextMonthDays;
-		console.log("lastMonthDays: " + lastMonthDays + "<br />nextMonthDays: " + nextMonthDays + "totalDays: " + totalDays);
 		var date = new Date(firstOfMonth.getFullYear(), firstOfMonth.getMonth(), firstOfMonth.getDate() - lastMonthDays );
-		console.log(date);
+
+		$("#month-name").html('<span id="back-month"><</span> ' + monthNames[firstOfMonth.getMonth()] + " " + firstOfMonth.getFullYear() + ' <span id="forward-month">></span>' );
+
 		var output = '';
+		output += '<tr><th class="col-xs-1">Sun</th><th class="col-xs-1">Mon</th><th class="col-xs-1">Tues</th><th class="col-xs-1">Wed</th><th class="col-xs-1">Thurs</th><th class="col-xs-1">Fri</th><th class="col-xs-1">Sat</th></tr>';
 		for (var week = 0; week < monthLength/7; week++) {
 			
 			// console.log(date);
@@ -39,19 +42,34 @@ $( document ).ready(function() {
 			output += '</tr>';
 		};
 		$(output).appendTo('#calendar-table');
-		$("#month-name").html('<span id="back-month"><</span> ' + monthNames[today.getMonth()] + " " + today.getFullYear() + ' <span id="forward-month">></span>' );
+
+
+		$( "#forward-month" ).click(function() {
+	  		viewNextMonth();
+		});
+
+		$( "#back-month" ).click(function() {
+	  		viewLastMonth();
+		});
+
 	};
 
 	var viewNextMonth = function() {
 		setupDates(firstOfNextMonth);
 		populateDays();
-	}
+	};
 
-$('forward-month').click(function(event){
-	alert('Ha');
-	viewNextMonth();
-})
+	var viewLastMonth = function() {
+		setupDates(firstOfLastMonth);
+		populateDays();
+	};
 
-populateDays();
+	
+
+	$( "#forward-month" ).click(function() {
+  		alert('click');
+	});
+
+	populateDays();
 
 });
