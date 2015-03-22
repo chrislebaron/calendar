@@ -9,6 +9,44 @@ $( document ).ready(function() {
 	var monthLength = lastOfMonth.getDate();
 	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+	var popupHTML = '<div id="popup">\
+						<div id="close-popup">\
+							x\
+						</div>\
+						<h4>New Event</h4>\
+						<form id="new-event">\
+							<div id="new-event-date">\
+								When:\
+							</div>\
+\
+							<!-- Event Label -->\
+							<div class="row">\
+								<div class="field form-group">\
+									<label class="col-sm-4 control-label" for="event_name">Event Name:</label>\
+									<div class="col-sm-8 col-lg-6">\
+										<input class="form-control" id="event_name" name="event_name" type="text" />\
+									</div>\
+								</div>\
+							</div>\
+							\
+							<div class="row">\
+								<div class="field form-group">\
+									<label class="col-sm-4 control-label" for="event_time">Event Time:</label>\
+									<div class="col-sm-8 col-lg-6">\
+										<input type="time" name="event_time" class="form-control">\
+									</div>\
+								</div>\
+							</div>\
+							<div class="row">\
+								<div class="field form-group">\
+									<div class="col-xs-12">\
+										<button type="submit" class="btn btn-default" id="new-event-submit">Submit</button>\
+									</div>\
+								</div>\
+							</div>\
+						</form>\
+					</div>';
+
 	var setupDates = function(refDate) {
 		// refDate = new Date(2015, 3, 15);
 		firstOfMonth = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate()-refDate.getDate()+1);
@@ -18,6 +56,7 @@ $( document ).ready(function() {
 		monthLength = lastOfMonth.getDate();
 		
 	};
+
 	
 
 	var populateDays = function(){
@@ -43,14 +82,8 @@ $( document ).ready(function() {
 		};
 		$(output).appendTo('#calendar-table');
 
-
-		$( "#forward-month" ).click(function() {
-	  		viewNextMonth();
-		});
-
-		$( "#back-month" ).click(function() {
-	  		viewLastMonth();
-		});
+		clickHandlers();
+		
 
 	};
 
@@ -64,11 +97,69 @@ $( document ).ready(function() {
 		populateDays();
 	};
 
-	
+	var popUpForm = function(date, td) {
+		$('#popup').remove();
+		$(popupHTML).appendTo('body');
+		$('#new-event-date').text("When: " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear());
+		$("#close-popup").click(function(event){
+			$('#popup').remove();
+		});
+		$("#new-event-submit").click(function(e) {
+			e.preventDefault();
+			var $formData = $( '#new-event' ).serializeArray();
+			var formTime = $formData[1]["value"];
+			var hour = formTime.substring(0,2);
+			var min = formTime.substring(3);
+			var eventName = $formData[0]["value"];
+			date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, min);
+			if (formTime && eventName){
+				createEvent(date, td, eventName);
+				$('#popup').remove();
+			} else {
+				$('<div style="color:red; text-align:center;">Please fill out all form fields and resubmit.</div>').appendTo('#popup');
+			}
+			
+			
+		});
+		
+		
+	};
 
-	$( "#forward-month" ).click(function() {
-  		alert('click');
-	});
+	var createEvent = function(date, td, eventName) {
+		var hour = date.getHours();
+		var min = date.getMinutes();
+		var ampm = ''
+		if(hour > 12){
+			hour -= 12;
+			ampm = "p";
+		} else {
+			ampm += "a";
+		};
+		if(min == 0){
+			min = "00";
+		};
+		$('<div class="calendar-event">'+ hour + ":" + min + ampm + " - " + eventName +'</div>').appendTo(td);
+	};
+
+	var clickHandlers = function() {
+		$( "#forward-month" ).click(function() {
+	  		viewNextMonth();
+		});
+
+		$( "#back-month" ).click(function() {
+	  		viewLastMonth();
+		});
+
+		$("#calendar-table").click(function(event){
+			if ($(event.target).is('td')) {
+				var year = $(event.target).attr('year');
+				var month = $(event.target).attr('month');
+				var date = $(event.target).attr('date');
+				popUpForm(new Date(year, month, date), event.target);
+			};
+		});		
+	};
+
 
 	populateDays();
 
