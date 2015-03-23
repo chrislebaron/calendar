@@ -54,7 +54,12 @@
 .calendar-event {
 	width: 100%;
 	line-height: 18px;
-	background-color: #CAEDFF
+	background-color: #CAEDFF;
+	border: solid 1px #CCC;
+}
+
+#month-name {
+	width:230px;
 }
 
 #popup {
