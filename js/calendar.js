@@ -175,14 +175,13 @@ $( document ).ready(function() {
 			//it's list view
 			$dateDiv = $('div[year="'+ year +'"][month="'+ month +'"][date="'+ monthDate +'"]');
 			if ($dateDiv[0]){
-				$('<div class="list-event-div"><p>' + newHour + ":" + min + ampm + ": " + eventName + "</p></div>").appendTo($dateDiv[0]);
+				$('<div class="list-event-div" hour="'+ hour +'" min="'+ min +'" eventName="'+ eventName +'">' + newHour + ":" + min + ampm + " - " + eventName + "</div>").appendTo($dateDiv[0]);
 			} else {
-				var listDayDiv = '<div class="list-day-div" year="' + year + '" month="'+ month + '" date="'+ monthDate +'" ><h5>'+ monthNames[month] + " " + monthDate + ", " + year +'</h5></div>'
+				var listDayDiv = '<div class="list-day-div" year="' + year + '" month="'+ month + '" date="'+ monthDate +'" ><h5>'+ monthNames[month] + " " + monthDate + ", " + year +'</h5> <div class="list-event-div" hour="'+ hour +'" min="'+ min +'" eventName="'+ eventName +'">' + newHour + ':' + min + ampm + ' - '  + eventName + '</div></div>'
 				$(listDayDiv).appendTo('#list-div');
-				var eventDiv = '<div class="list-event-div"><p>' + newHour + ":" + min + ampm + ": " + eventName + "</p></div>";
-				$(eventDiv).appendTo('#list-div');
+				
 			}
-			console.log($dateDiv[0]);
+			// console.log($dateDiv[0]);
 			// if($dateDiv){
 			// 	$('testing').appendTo($dateDiv);
 			// }else {
@@ -347,7 +346,79 @@ $( document ).ready(function() {
 					}
 				});
 			};
-		});		
+		});	
+
+		$('#main-window').click(function(event){
+			// alert('main window clicked');
+			// console.log($(event.target));
+			if ($(event.target).is('.list-event-div')) {
+
+				// alert('click');	
+				var clickedListEvent = event.target;
+				var hour = $(clickedListEvent).attr('hour');
+				if (hour < 10){
+					hour = "0" + hour;
+				};
+				var min = $(clickedListEvent).attr('min');
+				if (min < 10){
+					min = "0" + min;
+				};
+				var eventName = $(clickedListEvent).attr('eventName');
+				$par = $(clickedListEvent).parent();
+				var year = $($par).attr('year');
+				var month = $($par).attr('month');
+				var monthDate = $($par).attr('date');
+				var eventDate = new Date(year, month, monthDate, hour, min);
+				console.log(eventDate);
+
+				popUpForm(eventDate, clickedListEvent);
+
+				//remove event from submit button
+				$("#new-event-submit").unbind();
+				//change the ID of the submit button & add old values to form
+				$('#new-event-submit').attr("ID", "update-event");
+				$('#event_name').val(eventName);
+				$('#event_time').val(hour + ':' + min);
+
+				// add a delete button
+				$('<a id="delete-event">Delete Event</a>').appendTo('#popup');
+
+				// Delete button click handler
+				var $calEvent = event.target;
+				$('#delete-event').click(function(event){
+					deleteEvent($calEvent, eventDate, eventName)
+
+				})
+
+				// define new event for submit button
+				$("#update-event").click(function(e) {
+					e.preventDefault();
+
+					// alert(oldEventDate);
+
+					var $formData = $( '#new-event' ).serializeArray();
+					// get the time, hour, minute & eventName from the form
+					var formTime = $formData[1]["value"];
+					var newHour = formTime.substring(0,2);
+					var newMin = formTime.substring(3);
+					var newEventName = $formData[0]["value"];
+					// Set up a new date element with the hour and minute from the form, and the date from the date variable.
+					newEventDate = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate(), newHour, newMin);
+					// make sure the form isn't empty
+					if (formTime && newEventName){
+						event.target.remove();
+						updateEvent(eventDate, eventName, newEventDate, newEventName);
+						$('#popup').remove();
+					} else {
+						// show error message
+						$('<div style="color:red; text-align:center;">Please fill out all form fields and resubmit.</div>').appendTo('#popup');
+					}
+				});
+
+
+
+			};
+		});
 	};
 
 

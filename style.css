@@ -108,6 +108,8 @@
 
 .list-event-div {
 	margin-left:15px;
+	display:block;
+	cursor:pointer;
 
 }
 
