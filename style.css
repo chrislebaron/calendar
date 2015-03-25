@@ -59,7 +59,8 @@
 }
 
 #month-name {
-	width:230px;
+	width:260px;
+	display:inline-block;
 }
 
 #popup {
@@ -71,6 +72,7 @@
 	margin-left: -200px;
 	background-color:#E4F6FF;
 	padding: 10px;
+	border: solid 1px #ccc;
 }
 
 #close-popup {
@@ -84,4 +86,31 @@
 	right:5px;
 	top:5px;
 	cursor:pointer;
+}
+
+.different-month {
+	background-color:#f0f0f0;
+}
+
+#delete-event {
+	display:inline-block;
+	position: absolute;
+	left:160px;
+	bottom:25px;
+	cursor: pointer;
+}
+
+#list-view, #calendar-view {
+	font-size: 12px;
+	margin-bottom: 7px;
+
+}
+
+.list-event-div {
+	margin-left:15px;
+
+}
+
+.list-event-div p {
+	margin:0;
 }
